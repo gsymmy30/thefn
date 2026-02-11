@@ -6,30 +6,25 @@ import { useEffect, useState } from "react";
 const EMBER_COUNT = 30;
 const EMBER_COLORS = ["#ff2d6b", "#ff6b2d", "#bf5af2", "#ffde03", "#ff2d9b"];
 
-function randomBetween(min: number, max: number) {
-  return Math.random() * (max - min) + min;
+function seededUnit(seed: number) {
+  const x = Math.sin(seed * 9999.91) * 10000;
+  return x - Math.floor(x);
+}
+
+function seededBetween(seed: number, min: number, max: number) {
+  return seededUnit(seed) * (max - min) + min;
 }
 
 function Embers() {
-  const [embers, setEmbers] = useState<
-    { id: number; left: string; size: string; color: string; duration: string; delay: string; drift: string }[]
-  >([]);
-
-  useEffect(() => {
-    setEmbers(
-      Array.from({ length: EMBER_COUNT }, (_, i) => ({
-        id: i,
-        left: `${randomBetween(2, 98)}%`,
-        size: `${randomBetween(1.5, 4)}px`,
-        color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)],
-        duration: `${randomBetween(8, 16)}s`,
-        delay: `${randomBetween(0, 12)}s`,
-        drift: `${randomBetween(-30, 30)}px`,
-      }))
-    );
-  }, []);
-
-  if (embers.length === 0) return null;
+  const embers = Array.from({ length: EMBER_COUNT }, (_, i) => ({
+    id: i,
+    left: `${seededBetween(i + 1, 2, 98)}%`,
+    size: `${seededBetween(i + 21, 1.5, 4)}px`,
+    color: EMBER_COLORS[Math.floor(seededBetween(i + 45, 0, EMBER_COLORS.length))],
+    duration: `${seededBetween(i + 81, 8, 16)}s`,
+    delay: `${seededBetween(i + 121, 0, 12)}s`,
+    drift: `${seededBetween(i + 151, -30, 30)}px`,
+  }));
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[3]">

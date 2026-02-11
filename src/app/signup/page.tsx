@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -38,7 +38,6 @@ export default function LoginPage() {
 
   return (
     <div className="noise scanlines relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
-      {/* Party haze blobs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="blob blob-1" />
         <div className="blob blob-2" />
@@ -47,16 +46,17 @@ export default function LoginPage() {
         <div className="blob blob-5" />
       </div>
 
-      {/* Content */}
       <main className="relative z-10 flex w-full max-w-sm flex-col items-center px-6">
-        {/* Wordmark */}
         <Link href="/" className="animate-fade-in delay-1 mb-12 font-display text-xl font-extrabold tracking-tight text-white">
-          the<span className="bg-gradient-to-r from-[#ff3c7d] via-[#e040fb] to-[#c084fc] bg-clip-text text-transparent">function</span>
+          the
+          <span className="bg-gradient-to-r from-[#ff3c7d] via-[#e040fb] to-[#c084fc] bg-clip-text text-transparent">
+            function
+          </span>
         </Link>
 
         <form onSubmit={handleSendLink} className="animate-fade-up delay-2 flex w-full flex-col items-center gap-6">
           <label className="font-body text-xs tracking-[0.2em] uppercase text-white/30">
-            your email
+            create account with email
           </label>
           <input
             type="email"
@@ -88,9 +88,9 @@ export default function LoginPage() {
         )}
 
         <p className="animate-fade-up delay-3 mt-8 font-body text-xs tracking-wider text-white/25">
-          new here?{" "}
-          <Link href="/signup" className="text-white/60 hover:text-white">
-            create account
+          already have an account?{" "}
+          <Link href="/login" className="text-white/60 hover:text-white">
+            log in
           </Link>
         </p>
       </main>

@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import ProfileCreateForm from "@/app/profile/create/ProfileCreateForm";
 import { getAuthenticatedUserFromToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
-export default async function Dashboard() {
+export default async function CreateProfilePage() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
   const user = getAuthenticatedUserFromToken(sessionToken);
@@ -11,13 +12,12 @@ export default async function Dashboard() {
     redirect("/login");
   }
 
-  if (!user.profileDisplayName) {
-    redirect("/profile/create");
+  if (user.profileDisplayName) {
+    redirect("/dashboard");
   }
 
   return (
     <div className="noise scanlines relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
-      {/* Party haze blobs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="blob blob-1" />
         <div className="blob blob-2" />
@@ -26,13 +26,14 @@ export default async function Dashboard() {
         <div className="blob blob-5" />
       </div>
 
-      <main className="relative z-10 flex flex-col items-center px-6">
-        <h1 className="animate-slam delay-1 font-display text-6xl font-extrabold tracking-tight text-white sm:text-8xl">
-          you&apos;re in<span className="text-[#ff3c7d]">.</span>
+      <main className="relative z-10 flex max-w-lg flex-col items-center px-6 text-center">
+        <h1 className="animate-slam delay-1 font-display text-5xl font-extrabold tracking-tight text-white sm:text-7xl">
+          profile setup
         </h1>
-        <p className="animate-fade-up delay-3 mt-6 font-body text-sm tracking-[0.2em] uppercase text-white/25">
-          welcome, {user.profileDisplayName}
+        <p className="animate-fade-up delay-3 mt-6 font-body text-sm tracking-[0.15em] uppercase text-white/35">
+          tell us a little about yourself
         </p>
+        <ProfileCreateForm />
       </main>
     </div>
   );
