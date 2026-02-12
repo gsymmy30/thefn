@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { getAuthenticatedUserFromToken, SESSION_COOKIE_NAME } from "@/lib/auth";
+import DashboardActions from "@/app/dashboard/DashboardActions";
 
 export default async function Dashboard() {
   const cookieStore = await cookies();
@@ -33,6 +35,13 @@ export default async function Dashboard() {
         <p className="animate-fade-up delay-3 mt-6 font-body text-sm tracking-[0.2em] uppercase text-white/25">
           welcome, {user.profileDisplayName}
         </p>
+        <Link
+          href="/profile"
+          className="mt-6 rounded-full border border-white/15 px-5 py-2 font-body text-xs tracking-[0.14em] uppercase text-white/60 transition hover:text-white"
+        >
+          view profile
+        </Link>
+        <DashboardActions />
       </main>
     </div>
   );

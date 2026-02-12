@@ -63,6 +63,7 @@ export async function sendSupabaseMagicLink(email: string, redirectTo: string) {
       email,
       create_user: true,
       should_create_user: true,
+      redirect_to: redirectTo,
       email_redirect_to: redirectTo,
     }),
   });

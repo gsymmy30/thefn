@@ -1,5 +1,19 @@
 import LandingScene from "./LandingScene";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getAuthenticatedUserFromToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const user = getAuthenticatedUserFromToken(sessionToken);
+
+  if (user?.profileDisplayName) {
+    redirect("/dashboard");
+  }
+  if (user) {
+    redirect("/profile/create");
+  }
+
   return <LandingScene />;
 }

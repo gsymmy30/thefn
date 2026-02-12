@@ -26,12 +26,12 @@ export default async function CreateProfilePage() {
         <div className="blob blob-5" />
       </div>
 
-      <main className="relative z-10 flex max-w-lg flex-col items-center px-6 text-center">
+      <main className="relative z-10 flex max-w-2xl flex-col items-center px-6 text-center">
         <h1 className="animate-slam delay-1 font-display text-5xl font-extrabold tracking-tight text-white sm:text-7xl">
           profile setup
         </h1>
         <p className="animate-fade-up delay-3 mt-6 font-body text-sm tracking-[0.15em] uppercase text-white/35">
-          tell us a little about yourself
+          claim your @ • drop your best 4-5 shots • keep it all you
         </p>
         <ProfileCreateForm />
       </main>

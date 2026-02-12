@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import AuthHashRedirector from "@/app/AuthHashRedirector";
+import AuthSessionSync from "@/app/AuthSessionSync";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -27,6 +29,8 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${spaceGrotesk.variable} antialiased`}
       >
+        <AuthHashRedirector />
+        <AuthSessionSync />
         {children}
       </body>
     </html>

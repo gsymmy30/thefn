@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // --- Embers ---
 const EMBER_COUNT = 30;
@@ -125,12 +126,12 @@ export default function LandingScene() {
         <div className="animate-fade-in delay-6 mt-6 h-px w-12 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
         {/* Button */}
-        <a
+        <Link
           href="/login"
           className="btn-invite animate-wiggle delay-7 mt-6 flex h-12 items-center justify-center rounded-full border border-white/8 bg-white/[0.03] px-8 font-body text-sm font-medium tracking-[0.15em] text-white/50 backdrop-blur-sm"
         >
           enter
-        </a>
+        </Link>
       </main>
 
       {/* Live clock */}

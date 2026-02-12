@@ -10,6 +10,7 @@ import {
   getSupabaseEmailFromAccessToken,
   verifySupabaseMagicLink,
 } from "@/lib/supabase-auth";
+import { consumeDevMagicLink } from "@/lib/db";
 
 const SUPABASE_EMAIL_TYPES = new Set(["magiclink", "signup", "email"]);
 
@@ -24,12 +25,21 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const emailResult = accessToken
-      ? await getSupabaseEmailFromAccessToken(accessToken)
-      : await verifySupabaseMagicLink(tokenHash as string, tokenType);
+    let emailResult: { email: string };
+    if (tokenType === "localdev") {
+      const devResult = consumeDevMagicLink(tokenHash as string);
+      if (!devResult) {
+        return NextResponse.json({ error: "Invalid or expired link" }, { status: 401 });
+      }
+      emailResult = { email: devResult.email };
+    } else {
+      emailResult = accessToken
+        ? await getSupabaseEmailFromAccessToken(accessToken)
+        : await verifySupabaseMagicLink(tokenHash as string, tokenType);
 
-    if (!SUPABASE_EMAIL_TYPES.has(tokenType) && !accessToken) {
-      return NextResponse.json({ error: "Unsupported callback type" }, { status: 400 });
+      if (!SUPABASE_EMAIL_TYPES.has(tokenType) && !accessToken) {
+        return NextResponse.json({ error: "Unsupported callback type" }, { status: 400 });
+      }
     }
 
     const userId = findOrCreateUserByIdentity("email", emailResult.email);

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type CompletionState = "loading" | "error";
+const CHANNEL_NAME = "thefn-auth-events";
+const STORAGE_KEY = "__thefn_auth_redirect__";
 
 function readCallbackPayload() {
   const url = new URL(window.location.href);
@@ -57,7 +59,21 @@ export default function AuthCallbackPage() {
 
         const data = (await res.json()) as { nextPath?: string };
         if (!cancelled) {
-          router.replace(data.nextPath ?? "/dashboard");
+          const nextPath = data.nextPath ?? "/dashboard";
+
+          if ("BroadcastChannel" in window) {
+            const channel = new BroadcastChannel(CHANNEL_NAME);
+            channel.postMessage({ nextPath });
+            channel.close();
+          }
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ nextPath, ts: Date.now() }));
+          localStorage.removeItem(STORAGE_KEY);
+
+          router.replace(nextPath);
+          setTimeout(() => {
+            window.close();
+          }, 350);
         }
       } catch {
         if (!cancelled) {
